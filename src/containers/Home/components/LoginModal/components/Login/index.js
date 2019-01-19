@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Title, LineInput, SubmitButton, SecondaryOptionText } from './styles'
+import { Mutation } from 'react-apollo'
+import LOGIN_USER from './mutations'
 
 class Login extends Component {
   constructor(props) {
@@ -27,7 +29,19 @@ class Login extends Component {
           onChange={e => this.onChange('password', e)}
           type="password"
         />
-        <SubmitButton>Login</SubmitButton>
+
+        {/* new code start */}
+        <Mutation
+          mutation={LOGIN_USER}
+          variables={{ loginUserInput: this.state }}
+        >
+          {loginUser => (
+            <SubmitButton onClick={loginUser}> Login </SubmitButton>
+          )}
+        </Mutation>
+
+        {/* new code end */}
+
         <SecondaryOptionText onClick={this.props.changeMode}>
           Or Sign Up
         </SecondaryOptionText>
